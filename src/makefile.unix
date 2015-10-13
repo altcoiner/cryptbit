@@ -10,8 +10,8 @@ ARCH:=$(system lscpu | head -n 1 | awk '{print $2}')
 
 DEFS=-DBOOST_SPIRIT_THREADSAFE
 DEFS += -DUSE_SECP256K1
-DEFS += $(addprefix -I,$(CURDIR) $(CURDIR)/obj $(BOOST_INCLUDE_PATH) $(BDB_INCLUDE_PATH) $(OPENSSL_INCLUDE_PATH))
-LIBS = $(addprefix -L,$(BOOST_LIB_PATH) $(BDB_LIB_PATH) $(OPENSSL_LIB_PATH))
+DEFS += $(addprefix -I,$(CURDIR) $(CURDIR)/obj $(BOOST_INCLUDE_PATH) $(BDB_INCLUDE_PATH) $(OPENSSL_INCLUDE_PATH) $(SECP256K1_INCLUDE_PATH))
+LIBS = $(addprefix -L,$(BOOST_LIB_PATH) $(BDB_LIB_PATH) $(OPENSSL_LIB_PATH) $(SECP256K1_LIB_PATH))
 
 LMODE = dynamic
 LMODE2 = dynamic
@@ -215,6 +215,20 @@ clean:
 	-rm -f cryptbitd
 	-rm -f obj/*.o
 	-rm -f obj/*.P
+	-rm -f obj/crypto/*.o
+	-rm -f obj/crypto/*.P
 	-rm -f obj/build.h
+	-rm -f leveldb/libleveldb.a
+	-rm -f leveldb/libmemenv.a
+	-rm -f leveldb/helpers/*.o
+	-rm -f leveldb/helpers/memenv/memenv.o
+	-rm -f leveldb/table/*.o
+	-rm -f leveldb/util/*.o
+	-rm -f leveldb/db/*.o
+	-rm -f leveldb/port/*.o
+	-rm -f leveldb/build_config.mk
+	-rm -rf leveldb/ios-x86/* 
+	-rm -rf leveldb/ios-arm/*
+
 
 FORCE:
